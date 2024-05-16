@@ -5,7 +5,7 @@ import cv2
 def pre_process(original, erosion=False) -> tuple:
     """输入图片->灰度化->二值化->轮廓->最小外接"""
     p1 = cv2.cvtColor(original, cv2.COLOR_BGR2GRAY)  # =蓝绿红 to gray
-    p2 = cv2.threshold(p1, 100, 255, cv2.THRESH_BINARY_INV)[1]  # 为什么不INV就会出错？怪了
+    p2 = cv2.threshold(p1, 120, 255, cv2.THRESH_BINARY_INV)[1]  # 为什么不INV就会出错？怪了
 
     if erosion:
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (4, 4))  # 侵蚀
