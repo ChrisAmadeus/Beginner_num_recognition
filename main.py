@@ -23,7 +23,7 @@ for i, num in enumerate(nums):
 
 name = input()
 target_img = cv2.imread("numbers/" + name + ".jpg")
-zone = target_img[100:800, 3300:]
+zone = target_img[100:800, 3000:]
 
 bin_zone, target = pre_process(zone, True)
 target.sort(key=lambda x: x[0])
@@ -35,7 +35,7 @@ for rect in target:
     # 注意！这是相对于切片的坐标，不是整个照片的坐标！！！
 
     LW = rect[2] / float(rect[3])  # 形状，太离谱的肯定不是数字
-    if rect[2] < 10 or rect[3] < 10 or LW > 0.82 or LW < 0.28:  # 检查大小、形状
+    if rect[2] < 20 or rect[2] > 80 or rect[3] < 30 or rect[3] > 90 or LW > 0.82 or LW < 0.28: # 检查大小、形状
         continue
 
     cv2.rectangle(zone, (x, y), (x + w, y + h), (0, 0, 255), 10)
