@@ -5,7 +5,10 @@ import cv2
 def pre_process(original, erosion=False) -> tuple:
     """输入图片->灰度化->二值化->轮廓->最小外接"""
     p1 = cv2.cvtColor(original, cv2.COLOR_BGR2GRAY)  # =蓝绿红 to gray
-    p2 = cv2.threshold(p1, 120, 255, cv2.THRESH_BINARY_INV)[1]  # 为什么不INV就会出错？怪了
+
+    # 因findContours 检测黑底白字的物体，所以要选择反转的二值化THRESH_BINARY_INV
+    p2 = cv2.threshold(p1, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]  # OTSU均值化
+    # OTSU会把所有的灰度画成统计图，统计图会有两个高峰（黑&白），算法会在中间找到合适的阈值
 
     if erosion:
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (4, 4))  # 侵蚀
